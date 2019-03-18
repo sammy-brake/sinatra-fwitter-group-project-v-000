@@ -1,8 +1,10 @@
 class TweetsController < ApplicationController
 
-# get '/tweets' do
-#   erb :'tweets/tweets'
-# end
+get '/tweets' do
+  binding.pry
+  @user = User.find(session[:user_id])
+    erb :'tweets/tweets'
+end
 #
 # get '/tweets/:id' do
 #   @tweet = Tweet.find(params[:id])
