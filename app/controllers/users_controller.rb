@@ -18,8 +18,13 @@ get "/login" do
   if session[:user_id] == nil
     erb :'users/login'
   else
-    redirect :'/tweets'
+    redirect :'tweets/tweets'
   end
+end
+
+get "/users/:slug" do
+   @user = User.find_by_slug(params[:slug])
+  erb :'/users/show'
 end
 
 post '/signup' do
