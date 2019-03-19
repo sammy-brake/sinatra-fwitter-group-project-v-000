@@ -74,7 +74,7 @@ delete 'tweets/:id/delete' do
     @tweet = Tweet.find_by(params[:id])
     @tweet.delete
     redirect "/tweets/tweets"
-  else 
+  else
     redirect :"/login"
   end
 end
