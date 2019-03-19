@@ -25,7 +25,7 @@ post '/new' do
   if @user
     if params[:content] != ""
       @user.tweets << Tweet.create(params)
-      erb :"/tweets/show_tweet"
+      redirect :"/tweets/#{@user.tweets.last.id}"
     else
       redirect :'/tweets/new'
     end
@@ -35,20 +35,34 @@ post '/new' do
 end
 
 
-#
-# get '/tweets/:id' do
-#   @tweet = Tweet.find(params[:id])
-#   erb :'tweets/show_tweet'
-# end
+
+get '/tweets/:id' do
+  @tweet = Tweet.find_by(params[:id])
+  erb :'tweets/show_tweet'
+end
 
 ### just writing out future routes
-# get '/tweets/:id/edit' do
-# end
+get '/tweets/:id/edit' do
+  @user = User.find_by(session[:user_id])
+  if @user
+    @tweet = Tweet.find_by(params[:id])
+    erb :"/tweets/edit_tweet"
+  else
+    redirect :"/login"
+  end
+end
 
 # post '/tweets/edit' do
 #end
 
-# post 'tweets/:id/delete' do
-# end
+post 'tweets/:id/delete' do
+  @user = User.find_by(session[:user_id])
+  if @user
+    @tweet = Tweet.find_by(params[:id])
+    @tweet.delete
+    redirect "/tweets/tweets"
+  else redirect :"/login"
+  end
+end
 
 end
