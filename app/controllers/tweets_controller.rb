@@ -65,7 +65,6 @@ patch "/tweets/:id" do
     @tweet.content = params[:content]
     @tweet.save
     redirect :"/tweets/#{@tweet.id}"
-
   end
 end
 
