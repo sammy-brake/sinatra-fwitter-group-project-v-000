@@ -11,20 +11,30 @@ get '/tweets' do
 end
 
 get '/tweets/new' do
-  # @user = User.find_by(session[:user_id])
-  # if @user && @user.authenticate(params[:password])
-  #   session[:user_id] = @user.id
+  @user = User.find_by(session[:user_id])
+  if @user
+    session[:user_id] = @user.id
     erb :'/tweets/new'
-  # else
-  #   redirect to :"/login"
-  # end
+  else
+    redirect :"/login"
+  end
 end
 
 post '/new' do
   @user = User.find_by(session[:user_id])
-  @user.tweets << Tweet.create(params)
-  erb :"/tweets/show_tweet"
+  if @user
+    if params[:content] != ""
+      @user.tweets << Tweet.create(params)
+      erb :"/tweets/show_tweet"
+    else
+      redirect :'/tweets/new'
+    end
+  else
+    redirect :"/login"
+  end
 end
+
+
 #
 # get '/tweets/:id' do
 #   @tweet = Tweet.find(params[:id])
