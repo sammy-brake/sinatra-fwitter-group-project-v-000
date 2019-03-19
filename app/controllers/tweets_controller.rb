@@ -61,7 +61,6 @@ patch "/tweets/:id" do
   @tweet = Tweet.find_by(params[:id])
   if @tweet.content == ""
     redirect :'/tweets/:id/edit'
-
   else
     @tweet.content = params[:content]
     @tweet.save
