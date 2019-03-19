@@ -68,7 +68,7 @@ patch "/tweets/:id" do
   end
 end
 
-post 'tweets/:id/delete' do
+delete 'tweets/:id/delete' do
   @user = User.find_by(session[:user_id])
   if @user
     @tweet = Tweet.find_by(params[:id])
