@@ -24,8 +24,10 @@ post '/new' do
   @user = User.find_by(session[:user_id])
   if @user
     if params[:content] != ""
-      @user.tweets << Tweet.create(params)
-      redirect :"/tweets/#{@user.tweets.last.id}"
+      @new_tweet = Tweet.create(params)
+      @user.tweets << @new_tweet
+     Tweet.create(params)
+      redirect :"/tweets/#{@new_tweet.id}"
     else
       redirect :'/tweets/new'
     end
