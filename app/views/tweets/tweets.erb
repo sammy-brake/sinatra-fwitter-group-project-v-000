@@ -1,4 +1,4 @@
-<h1>Welcome, <%=@user.username%>!</h1>
+<h1>Welcome, <%=@user.username%>!!</h1>
 
 <p>
       <% @tweets.each do |tweet| %>
@@ -6,4 +6,7 @@
       <%end%></p>
 
 
-<p><a href="/logout">Log Out</a></p>
+
+<p><a href="/logout">Log Out</a><br>
+<a href="/tweets/new">Create a Tweet</a>
+</p>
