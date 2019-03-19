@@ -37,7 +37,7 @@ end
 
 
 get '/tweets/:id' do
-  binding.pry
+  # binding.pry
   @user = User.find_by(session[:user_id])
   if @user
     @tweet = Tweet.find_by(params[:id])
@@ -80,3 +80,4 @@ post 'tweets/:id/delete' do
 end
 
 end
+# 
