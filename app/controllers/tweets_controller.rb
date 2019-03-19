@@ -27,7 +27,6 @@ post '/new' do
       @new_tweet = Tweet.create(params)
       @user.tweets << @new_tweet
      Tweet.create(params)
-     binding.pry
       redirect :"/tweets/#{@new_tweet.id}"
     else
       redirect :'/tweets/new'
