@@ -1,1 +1,11 @@
-<h1>Tweets!</h1>
+<h1>Welcome, <%=@user.username%>!</h1>
+<!--
+<p><% if @user.tweets != nil && @user.tweets != []  %>
+      <% @user.tweets.each do |tweet| %>
+      <%= tweet.content %>
+      <%end%>
+
+    <%end%></p> -->
+
+
+<p><a href="/logout">Log Out</a></p>
