@@ -37,8 +37,13 @@ end
 
 
 get '/tweets/:id' do
-  @tweet = Tweet.find_by(params[:id])
-  erb :'tweets/show_tweet'
+  @user = User.find_by(session[:user_id])
+  if @user
+    @tweet = Tweet.find_by(params[:id])
+    erb :'tweets/show_tweet'
+  else
+    redirect :"/login"
+  end
 end
 
 ### just writing out future routes
@@ -52,8 +57,18 @@ get '/tweets/:id/edit' do
   end
 end
 
-# post '/tweets/edit' do
-#end
+patch "/tweets/:id" do
+  @tweet = Tweet.find_by(params[:id])
+  if @tweet.content == ""
+    redirect :'/tweets/:id/edit'
+
+  else
+    @tweet.content = params[:content]
+    @tweet.save
+    redirect :"/tweets/#{@tweet.id}"
+
+  end
+end
 
 post 'tweets/:id/delete' do
   @user = User.find_by(session[:user_id])
