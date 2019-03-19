@@ -20,14 +20,18 @@ get '/tweets/new' do
   end
 end
 
-post '/new' do
-  @user = User.find_by(session[:user_id])
-  if @user
-    if params[:content] != ""
-      @user.tweets << Tweet.create(params)
-      redirect :"/tweets/#{@user.tweets.last.id}"
-    else
+post '/tweets' do
+
+  if session[:user_id] != nil
+    @user = User.find_by(session[:user_id])
+    if params[:content] == ""
+
       redirect :'/tweets/new'
+    else
+      @new_tweet = Tweet.create(params)
+      @user.tweets << @new_tweet
+     Tweet.create(params)
+      redirect :"/tweets/#{@new_tweet.id}"
     end
   else
     redirect :"/login"
@@ -37,16 +41,16 @@ end
 
 
 get '/tweets/:id' do
-  @user = User.find_by(session[:user_id])
-  if @user
-    @tweet = Tweet.find_by(params[:id])
+  # binding.pry
+  if session[:user_id] != nil
+     @user = User.find_by(session[:user_id])
+    @tweet = Tweet.find_by(params)
     erb :'tweets/show_tweet'
   else
     redirect :"/login"
   end
 end
 
-### just writing out future routes
 get '/tweets/:id/edit' do
   @user = User.find_by(session[:user_id])
   if @user
@@ -58,26 +62,29 @@ get '/tweets/:id/edit' do
 end
 
 patch "/tweets/:id" do
-  @tweet = Tweet.find_by(params[:id])
-  if @tweet.content == ""
-    redirect :'/tweets/:id/edit'
 
+  @tweet = Tweet.find_by(params[:id])
+  if params[:content] == ""
+    redirect :"/tweets/#{@tweet.id}/edit"
   else
-    @tweet.content = params[:content]
+    @tweet.update(content: params[:content])
     @tweet.save
     redirect :"/tweets/#{@tweet.id}"
-
   end
 end
 
-post 'tweets/:id/delete' do
-  @user = User.find_by(session[:user_id])
-  if @user
-    @tweet = Tweet.find_by(params[:id])
+delete '/tweets/:id/delete' do
+  if session[:user_id] != nil
+    @user = User.find_by(session[:user_id])
+    @tweet = Tweet.find_by(id: params[:id])
+    if @tweet.user == @user
     @tweet.delete
-    redirect "/tweets/tweets"
-  else redirect :"/login"
+    end
+    redirect :"/tweets"
+  else
+    redirect :"/login"
   end
 end
 
 end
+#

@@ -6,11 +6,12 @@ configure do
 end
 
 get '/signup' do
-  # binding.pry
     if session[:user_id] == nil
       erb :'users/signup'
     else
-      redirect :'tweets/tweets'
+      @user = User.find_by(session[:user_id])
+      @tweets = Tweet.all
+      redirect :'/tweets'
     end
 end
 
@@ -18,13 +19,17 @@ get "/login" do
   if session[:user_id] == nil
     erb :'users/login'
   else
-    redirect :'tweets/tweets'
+    redirect :'/tweets'
   end
 end
 
 get "/users/:slug" do
    @user = User.find_by_slug(params[:slug])
+   if @user
   erb :'/users/show'
+else
+  redirect :"/login"
+end
 end
 
 post '/signup' do
