@@ -48,7 +48,6 @@ get '/tweets/:id' do
 end
 
 get '/tweets/:id/edit' do
-
   @user = User.find_by(session[:user_id])
   if @user
     @tweet = Tweet.find_by(params[:id])
